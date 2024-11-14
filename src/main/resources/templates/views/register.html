@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>책 등록하기</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-3">
+    <h2>책 등록하기</h2>
+    <form method="post">
+        <div class="form-group">
+            <label for="title">제목:</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div class="form-group">
+            <label for="price">가격:</label>
+            <input type="number" class="form-control" id="price" name="price">
+        </div>
+        <div class="form-group">
+            <label for="author">저자:</label>
+            <input type="text" class="form-control" id="author" name="author">
+        </div>
+        <div class="form-group">
+            <label for="page">페이지:</label>
+            <input type="number" class="form-control" id="page" name="page">
+        </div>
+        <div class="form-group">
+            <label for="image_path">책 이미지:</label>
+            <input type="file" class="form-control" id="image_path" name="image_path" accept="image/*" >
+        </div>
+        <button type="submit" class="btn btn-primary">등록하기</button>
+        <a th:href="@{/list}" class="btn btn-secondary ml-2">취소</a>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+     const form = document.querySelector('form');
+     form.addEventListener('submit', function(event) {
+         event.preventDefault(); // 폼의 기본 동작인 서버로의 전송을 막음
+
+         const formData = new FormData(form);
+
+         fetch('/api/books/save', {
+             method: 'POST',
+             body: formData
+         })
+         .then(response => {
+             if (!response.ok) {
+                 throw new Error('Network response was not ok');
+             }
+             return response.json(); // 서버로부터 JSON 데이터 수신
+         })
+         .then(data => {
+             console.log('등록 성공:', data);
+             location.href="/list";
+         })
+         .catch(error => {
+             console.error('등록 실패:', error);
+             // 등록 실패 시 에러 처리
+         });
+     });
+ });
+</script>
+</body>
+</html>

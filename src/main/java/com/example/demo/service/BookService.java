@@ -51,6 +51,6 @@ public class BookService {
     }
     // 5. 특정 데이터 삭제하기
     public void deleteById(Long id){
-          repository.deleteById(id); // delete SQL
+          repository.deleteById(id); // delete from book where id=id
     }
 }
