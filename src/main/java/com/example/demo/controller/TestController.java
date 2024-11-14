@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,4 +49,22 @@ public class TestController {
         return "views/detail"; // detail.html
     }
 
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable Long id){
+        bookService.deleteById(id);
+        return "redirect:/list"; // edit.html
+    }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable Long id,  Model model){
+        Book book = bookService.getById(id);
+        model.addAttribute("book", book);
+        return "views/edit"; // edit.html
+    }
+
+    @PostMapping("/update")
+    public String update(Book book){
+        Book bk=bookService.update(book.getId(), book);
+        return "redirect:/list";
+    }
 }
