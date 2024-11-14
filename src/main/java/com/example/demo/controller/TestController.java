@@ -5,6 +5,7 @@ import com.example.demo.service.BookService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,5 +41,11 @@ public class TestController {
         return "views/register"; // register.html
     }
 
+    @GetMapping("/detail/{id}")
+    public String list(@PathVariable Long id, Model model){
+        Book book = bookService.getById(id);
+        model.addAttribute("book", book);
+        return "views/detail"; // detail.html
+    }
 
 }
